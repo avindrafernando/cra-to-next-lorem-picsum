@@ -1,5 +1,5 @@
 import Head from "next/head";
-import NavBar from "../components/NavBar";
+import Layout from "/components/Layout";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -10,8 +10,9 @@ function MyApp({ Component, pageProps }) {
         <meta name="theme-color" content="#000000" />
         <title>React App</title>
       </Head>
-      <NavBar></NavBar>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </div>
   );
 }
