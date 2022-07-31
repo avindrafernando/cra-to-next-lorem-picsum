@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import axiosMock from "axios";
 import Posts from "./Posts";
 
@@ -34,11 +34,6 @@ it("Should render the Posts component", async () => {
 
   // Act
   render(<Posts />);
-
-  // const [cardNodeForJohnDoe, cardNodeForJaneDoe] = await waitFor(() => [
-  //   screen.getByTitle("John Doe"),
-  //   screen.getByTitle("Jane Doe"),
-  // ]);
 
   const cardNodeForJohnDoe = await screen.findByTitle("John Doe");
   const cardNodeForJaneDoe = await screen.findByTitle("Jane Doe");
