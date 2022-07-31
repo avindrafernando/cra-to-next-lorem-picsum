@@ -1,9 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import axiosMock from "axios";
 import Posts from "../pages/posts";
-
-jest.mock("axios");
 
 it("Should render the Posts component", async () => {
   // Arrange
@@ -30,18 +27,13 @@ it("Should render the Posts component", async () => {
     },
   ];
 
-  axiosMock.get.mockResolvedValueOnce({ data: returnData });
-
   // Act
-  render(<Posts />);
+  render(<Posts posts={returnData} />);
 
   const cardNodeForJohnDoe = await screen.findByTitle("John Doe");
   const cardNodeForJaneDoe = await screen.findByTitle("Jane Doe");
 
   // Assert
-  expect(axiosMock.get).toHaveBeenCalledTimes(1);
-  expect(axiosMock.get).toHaveBeenCalledWith("https://picsum.photos/list");
-
   expect(cardNodeForJohnDoe).toHaveStyle(
     "backgroundImage: 'url(\"https://picsum.photos/250/375?image=0\")'"
   );
