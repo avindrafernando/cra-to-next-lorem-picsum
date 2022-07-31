@@ -28,14 +28,7 @@ const useStyles = makeStyles({
 const getSrc = (id) => {
   const imagePostWidth = 250;
   const imagePostHeight = 375;
-  return (
-    "https://picsum.photos/" +
-    imagePostWidth +
-    "/" +
-    imagePostHeight +
-    "?image=" +
-    id
-  );
+  return `https://picsum.photos/id/${id}/${imagePostWidth}/${imagePostHeight}`;
 };
 
 const getAuthorUserName = (str) => {
@@ -45,20 +38,20 @@ const getAuthorUserName = (str) => {
 const Posts = () => {
   const classes = useStyles();
 
-  const [data, setData] = useState({ posts: [] });
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await PostsApi.getPosts();
 
-      setData({ posts: result.slice(0, 75) });
+      setPosts(result.slice(0, 75));
     };
     fetchData();
   }, []);
 
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">
-      {data.posts.map((post, index) => (
+      {posts.map((post, index) => (
         <Grid item lg key={post.id}>
           <Card className={classes.card}>
             <CardActionArea>
