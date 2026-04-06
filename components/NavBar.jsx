@@ -17,14 +17,11 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import HomeIcon from "@material-ui/icons/Home";
 import PhotoIcon from "@material-ui/icons/Photo";
-import { Route, Link } from "react-router-dom";
-
-import Home from "./Home";
-import Posts from "./Posts";
+import Link from "next/link";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
@@ -64,7 +61,6 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -81,8 +77,8 @@ const useStyles = makeStyles(theme => ({
   hrefLinksNoStyle: {
     color: "inherit",
     cursor: "inherit",
-    textDecoration: "none"
-  }
+    textDecoration: "none",
+  },
 }));
 
 const NavBar = () => {
@@ -133,25 +129,35 @@ const NavBar = () => {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
         <List>
-          <Link to="/">
+          <Link href="/">
             <ListItem button key={"Home"}>
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
-              <ListItemText className={classes.hrefLinksNoStyle} primary={"Home"} />
+              <ListItemText
+                className={classes.hrefLinksNoStyle}
+                primary={"Home"}
+              />
             </ListItem>
           </Link>
-          <Link to="/posts">
+          <Link href="/posts">
             <ListItem button key={"Posts"}>
               <ListItemIcon>
                 <PhotoIcon />
               </ListItemIcon>
-              <ListItemText className={classes.hrefLinksNoStyle} primary={"Posts"} />
+              <ListItemText
+                className={classes.hrefLinksNoStyle}
+                primary={"Posts"}
+              />
             </ListItem>
           </Link>
         </List>
@@ -162,9 +168,6 @@ const NavBar = () => {
         })}
       >
         <div className={classes.drawerHeader} />
-        
-        <Route exact path="/" component={Home} />
-        <Route exact path="/posts" component={Posts} />
       </main>
     </div>
   );

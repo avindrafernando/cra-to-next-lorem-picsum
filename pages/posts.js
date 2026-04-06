@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -35,40 +37,66 @@ const getAuthorUserName = (str) => {
   return str.substring(str.lastIndexOf("@"));
 };
 
-const Posts = () => {
+export async function getStaticProps() {
+  const postsData = await PostsApi.getPosts();
+  const posts = postsData.slice(0, 75);
+  return {
+    props: {
+      posts,
+    },
+  };
+}
+
+const Posts = ({ posts }) => {
   const classes = useStyles();
-
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await PostsApi.getPosts();
-
-      setPosts(result.slice(0, 75));
-    };
-    fetchData();
-  }, []);
 
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">
       {posts.map((post, index) => (
         <Grid item lg key={post.id}>
           <Card className={classes.card}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={getSrc(post.id)}
-                title={post.author}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {post.author}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {getAuthorUserName(post.author_url)}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
+            <Link
+              href={`/post/${encodeURIComponent(post.id)}`}
+              style={{
+                color: "inherit",
+                cursor: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              <CardActionArea>
+                <CardMedia className={classes.media} title={post.author}>
+                  <div
+                    style={{
+                      position: "relative",
+                      width: "100%",
+                      minHeight: 375,
+                    }}
+                  >
+                    <Image
+                      src={getSrc(post.id)}
+                      alt={`Photo by ${post.author}`}
+                      placeholder="blur"
+                      fill
+                      style={{
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                </CardMedia>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    {post.author}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {getAuthorUserName(post.author_url)}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Link>
             <CardActions>
               <Button size="small" color="primary">
                 <a
