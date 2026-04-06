@@ -35,19 +35,18 @@ const getAuthorUserName = (str) => {
   return str.substring(str.lastIndexOf("@"));
 };
 
-const Posts = () => {
+export async function getStaticProps() {
+  const postsData = await PostsApi.getPosts();
+  const posts = postsData.slice(0, 75);
+  return {
+    props: {
+      posts,
+    },
+  };
+}
+
+const Posts = ({ posts }) => {
   const classes = useStyles();
-
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await PostsApi.getPosts();
-
-      setPosts(result.slice(0, 75));
-    };
-    fetchData();
-  }, []);
 
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">

@@ -7,12 +7,12 @@ it("fetches data from PostsApi", async () => {
   const returnData = [
     {
       id: 5,
-      author: "John Doe"
-    }, 
+      author: "John Doe",
+    },
     {
       id: 6,
-      author: "Jane Doe"
-    }
+      author: "Jane Doe",
+    },
   ];
 
   // setup
